@@ -53,42 +53,98 @@
 }*/
 
 // 배열과 포인터의 관계
-int main(void){
-    int arr[3] = {5, 10, 15};
-    int *ptr = arr; // arr이라는 자체의 주소값을 가진다.
+// int main(void){
+//     int arr[3] = {5, 10, 15};
+//     int *ptr = arr; // arr이라는 자체의 주소값을 가진다.
 
-    for (int i=0; i < 3; i++){
+//     for (int i=0; i < 3; i++){
 
-        printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
-    }
-    for (int i=0; i < 3; i++){
+//         printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
+//     }
+//     for (int i=0; i < 3; i++){
 
-    printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
-    }
-    //배열의 값도 바뀜. ptr과 arr은 아에 똑같은 녀석이다.
-    ptr[0] = 100;
-    ptr[1] = 200;
-    ptr[2] = 300;
-    for (int i=0; i < 3; i++){
+//     printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
+//     }
+//     //배열의 값도 바뀜. ptr과 arr은 아에 똑같은 녀석이다.
+//     ptr[0] = 100;
+//     ptr[1] = 200;
+//     ptr[2] = 300;
+//     for (int i=0; i < 3; i++){
 
-        //printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
-        printf("배열 arr[%d] 의 값: %d\n", i , *(arr + i)); //arr의 배열이 처음 시작되는 주소값를 가지고 있다., 주소로 부터 i번째에 해당하는 값을 가져오는 것이다.
-    }
-    for (int i=0; i < 3; i++){
+//         //printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
+//         printf("배열 arr[%d] 의 값: %d\n", i , *(arr + i)); //arr의 배열이 처음 시작되는 주소값를 가지고 있다., 주소로 부터 i번째에 해당하는 값을 가져오는 것이다.
+//     }
+//     for (int i=0; i < 3; i++){
 
-    //printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
-    printf("포인터 ptr[%d] 의 값: %d\n", i , *(ptr+i));
-    }
-    printf("포인터 %d\n", ptr);
-    printf("포인터 %d\n", *(ptr));
-    // *(arr + i) == arr[i] 똑같은 표현
-    // arr == arr 배열의 첫번째 값의 주소와 동일 == &arr[0]
-    printf("arr 자체의 값: %d\n",arr);
-    printf("arr[0]의 주소 %d\n",&arr[0]);
+//     //printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
+//     printf("포인터 ptr[%d] 의 값: %d\n", i , *(ptr+i));
+//     }
+//     printf("포인터 %d\n", ptr);
+//     printf("포인터 %d\n", *(ptr));
+//     // *(arr + i) == arr[i] 똑같은 표현
+//     // arr == arr 배열의 첫번째 값의 주소와 동일 == &arr[0]
+//     printf("arr 자체의 값: %d\n",arr);
+//     printf("arr[0]의 주소 %d\n",&arr[0]);
 
-    printf("arr 자체의 값이 가지는 주소의 실제 값: %d\n",*(arr)); // *(arr + 0) 이랑 표현이 똑같다.
-    printf("arr[0]의 실제 값: %d\n",*&arr[0]);
-    // *& 는 아무것도 없는 것과 같다!!!!! 계속 써도 똑같다.(*&*&*&*&*&) 서로 상쇄가 된다.
+//     printf("arr 자체의 값이 가지는 주소의 실제 값: %d\n",*(arr)); // *(arr + 0) 이랑 표현이 똑같다.
+//     printf("arr[0]의 실제 값: %d\n",*&arr[0]);
+//     // *& 는 아무것도 없는 것과 같다!!!!! 계속 써도 똑같다.(*&*&*&*&*&) 서로 상쇄가 된다.
 
-    return 0;
-}
+//     return 0;
+// }
+
+//swap
+// void swap(int a, int b);
+// void swap_addr(int * a, int * b);
+
+// int main(void){
+//     //SWAP
+//     int a = 10;
+//     int b = 20;
+//     printf("a의 주소 : %d\n",&a);
+//     printf("b의 주소 : %d\n",&b);
+//     //a와 b의 값을 바꾼다.
+//     printf("Swap 함수 전 , a: %d b: %d\n",a,b);
+//     swap(a,b); // a와 b의 자체를 준게 아니라 값만 던저준다.
+//     printf("Swap 함수 후 , a: %d b: %d\n",a,b);
+
+//     //값에 의한 복사 (Call by Value) -> 값만 복사한다는 의미
+//     // 주소값을 넘기면? 메모리 공간안에 있는 주소값 자체를 넘기면
+
+//     printf("(주소값 전달) Swap 함수 전 , a: %d b: %d\n",a,b);
+//     swap_addr(&a,&b); // a와 b의 자체를 준게 아니라 값만 던저준다.
+//     printf("(주소값 전달) Swap 함수 후 , a: %d b: %d\n",a,b);
+//     return 0;
+// }
+// void swap(int a, int b){
+//     printf("swap함수 내 a의 주소 : %d\n",&a);
+//     printf("swap함수 내 b의 주소 : %d\n",&b);
+
+//     int temp = a;
+//     a = b;
+//     b = temp;
+//     printf("Swap 함수 내 , a: %d b: %d\n",a,b);
+// }
+// void swap_addr(int * a, int * b){
+//     printf("(주소값의) swap함수 내 a의 주소 : %d\n",a);
+//     int temp = *a;
+//     *a = *b;
+//     *b = temp;
+//     printf("Swap 함수 내 , a: %d b: %d\n",*a,*b);
+// }
+
+//포인터로 배열 값 변경하기
+//배ㅕㄹ일 때, arr2 -> 주소 자체
+// void changeArray(int *ptr);
+// int main(void){
+//     int arr2[3] = {10, 20 ,30};
+//     // changeArray(arr2);
+//     changeArray(&arr2[0]);
+//     for(int i=0; i<3; i++){
+//         printf("%d\n",arr2[i]);
+//     }
+//     return 0;   
+// }
+// void changeArray(int *ptr){
+//     ptr[2] = 50;
+// }
