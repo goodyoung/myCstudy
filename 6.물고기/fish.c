@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void){
+/*int main(void){
     int 철수 = 1; //메모리 공간의 철수라는 변수가 존재하는 위치가 있다.
     int 영희 = 2;
     int 민수 = 3;
@@ -49,5 +49,46 @@ int main(void){
     //포인터 변수는 변수의 주소를 받고 그 주소를 컨트롤 할 수 있게 하는 것.. 같다.
 
     
+    return 0;
+}*/
+
+// 배열과 포인터의 관계
+int main(void){
+    int arr[3] = {5, 10, 15};
+    int *ptr = arr; // arr이라는 자체의 주소값을 가진다.
+
+    for (int i=0; i < 3; i++){
+
+        printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
+    }
+    for (int i=0; i < 3; i++){
+
+    printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
+    }
+    //배열의 값도 바뀜. ptr과 arr은 아에 똑같은 녀석이다.
+    ptr[0] = 100;
+    ptr[1] = 200;
+    ptr[2] = 300;
+    for (int i=0; i < 3; i++){
+
+        //printf("배열 arr[%d] 의 값: %d\n", i , arr[i]);
+        printf("배열 arr[%d] 의 값: %d\n", i , *(arr + i)); //arr의 배열이 처음 시작되는 주소값를 가지고 있다., 주소로 부터 i번째에 해당하는 값을 가져오는 것이다.
+    }
+    for (int i=0; i < 3; i++){
+
+    //printf("포인터 ptr[%d] 의 값: %d\n", i , ptr[i]);
+    printf("포인터 ptr[%d] 의 값: %d\n", i , *(ptr+i));
+    }
+    printf("포인터 %d\n", ptr);
+    printf("포인터 %d\n", *(ptr));
+    // *(arr + i) == arr[i] 똑같은 표현
+    // arr == arr 배열의 첫번째 값의 주소와 동일 == &arr[0]
+    printf("arr 자체의 값: %d\n",arr);
+    printf("arr[0]의 주소 %d\n",&arr[0]);
+
+    printf("arr 자체의 값이 가지는 주소의 실제 값: %d\n",*(arr)); // *(arr + 0) 이랑 표현이 똑같다.
+    printf("arr[0]의 실제 값: %d\n",*&arr[0]);
+    // *& 는 아무것도 없는 것과 같다!!!!! 계속 써도 똑같다.(*&*&*&*&*&) 서로 상쇄가 된다.
+
     return 0;
 }

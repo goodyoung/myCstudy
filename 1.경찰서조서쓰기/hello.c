@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void)
+int main_ss(void)
 {
 	char name[256];
 	printf("이름\n");

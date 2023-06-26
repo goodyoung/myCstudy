@@ -19,7 +19,7 @@ int main(void){
     /*//function 정의
     int num =2;
     printf("num은 %d 입니다\n", num);
-    //2 +3은?
+    // 2 +3은?
     // num = num +3;
     // num += 3;
     // p(num);
@@ -36,6 +36,8 @@ int main(void){
     //반환값과 전달값이 있는 함수
     int ret2 = apple(5,2);
     printf("남은 수는 %d개 이다.\n", ret2);*/
+
+    
     /*// 계산기 빼기 곱하기 나누기도 같은 방식~
     int num = 2;
     num = add(num, 3);
