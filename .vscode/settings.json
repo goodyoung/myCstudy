@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "algorithm": "c",
+        "random": "c",
+        "__locale": "c",
+        "chrono": "c",
+        "functional": "c",
+        "stdbool.h": "c"
+    }
+}
