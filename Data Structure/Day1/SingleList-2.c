@@ -27,7 +27,6 @@ int InsertNexNode(char* pszData){
 
     // 노드 가리키기
     if (g_pHead==NULL){
-        
         g_pHead = pNode;
     }else{
         pNode->next = g_pHead; //기존 g_pHead가 가리키고 있는 주소
@@ -87,20 +86,20 @@ int main(void){
     PrintList();
     InsertNexNode("TEST02");
     PrintList();
-    InsertNexNode("TEST03");
-    PrintList();
+    // InsertNexNode("TEST03");
+    // PrintList();
 
-    if (FindData("TEST01")==1)
-        printf("FindData(): TEST01 found\n");
-    if (FindData("TEST02")==1)
-        printf("FindData(): TEST02 found\n");
-    if (FindData("TEST03")==1)
-        printf("FindData(): TEST03 found\n");
+    // if (FindData("TEST01")==1)
+    //     printf("FindData(): TEST01 found\n");
+    // if (FindData("TEST02")==1)
+    //     printf("FindData(): TEST02 found\n");
+    // if (FindData("TEST03")==1)
+    //     printf("FindData(): TEST03 found\n");
     
-    DeleteData("TEST01");
-    DeleteData("TEST03");
+    // DeleteData("TEST01");
+    // DeleteData("TEST03");
     
-    // ReleaseList();
-    PrintList();
+    ReleaseList();
+    // PrintList();
     return 0;
 }
