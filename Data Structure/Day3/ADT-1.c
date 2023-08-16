@@ -2,15 +2,50 @@
 #include <string.h>
 #include <stdlib.h>
 
+//함수 원형 선언!!
+int InsertAtHead(void* pParam,const char* (*pfParam)(void*));
+int InsertAtTail(void* pParam,const char* (*pfParam)(void*));
+
+typedef struct USERDATA{
+    char szName[64]; // Key
+    char szPhone[64];
+}USERDATA;
+
+const char* GetKeyFromUserData(USERDATA* pUser){
+    return pUser->szName;
+}
+
+void CreateUserData(const char* pszName, const char* pszPhone){
+    USERDATA* pNewData = (USERDATA*)malloc(sizeof(USERDATA));
+    memset(pNewData,0,sizeof(USERDATA));
+
+    strcpy(pNewData->szName,pszName);
+    strcpy(pNewData->szPhone,pszPhone);
+
+    InsertAtHead(pNewData, GetKeyFromUserData); //함수를 전달
+}
+
 
 typedef struct NODE{
-    char szData[64];
+
+    //관리 대상 자료
+    // char szData[64]; //이걸 가지고 관리 하겠다.
+    void* pData;
+    
+    //멤버 함수 포인터
+    const char* (*GetKey)(void*);
+    //이 GetKey함수를 USERDATA에 옮기는게 나을까?
+
+    //자료구조
     struct NODE* prev;
     struct NODE* next;
 } NODE;
 
 NODE* g_pHead, *g_pTail;
 int g_nSize;
+
+
+
 
 void InitList(void){
     g_pHead = (NODE *)malloc(sizeof(NODE));
@@ -21,8 +56,8 @@ void InitList(void){
 
     memset(g_pHead,0,sizeof(NODE));
     memset(g_pTail,0,sizeof(NODE));
-    strcpy(g_pHead->szData,"DUMMY HEAD");
-    strcpy(g_pTail->szData,"DUMMY TAIL");
+    // strcpy(g_pHead->szData,"DUMMY HEAD");
+    // strcpy(g_pTail->szData,"DUMMY TAIL");
     g_pHead->next = g_pTail;
     g_pTail->prev = g_pHead;
 }
@@ -33,6 +68,8 @@ void ReleaseList(void){
         NODE* pDelete = pTmp;
         pTmp = pTmp->next;
         printf("free(%p)\n",pDelete);
+
+        free(pDelete->pData);
         free(pDelete);
     }
     g_pHead = NULL;
@@ -47,23 +84,30 @@ void PrintList(void){
     NODE * pTmp = g_pHead;
     while(pTmp != NULL){
         if (pTmp == g_pHead || pTmp ==g_pTail)
-            printf("[%p] %p, %s [%p]\n",pTmp->prev,pTmp,pTmp->szData,pTmp->next);
-        // printf("[%p] %s [%p]\n",pTmp->prev,pTmp->szData,pTmp->next);
+        //puts("[Dummy]")
+            printf("[%p] DUMMY [%p]\n",pTmp->prev,pTmp->next);
+        //printf("[%p] %s [%p]\n",pTmp->prev,pTmp->szData,pTmp->next);
         else{
-        printf("Index:%d [%p] %p, %s [%p]\n",i,pTmp->prev,pTmp,pTmp->szData,pTmp->next);
+        printf("Index:%d %s\n",i,
+        pTmp->GetKey(pTmp->pData)); //데이터(예: USERDATA 구조체)를 가리키는 포인터를 인자로 받아
         i++;
         }
         pTmp = pTmp->next;
     }
     putchar('\n');
 }
-int InsertAtHead(const char* pszData){ //point가 가리키는 부분을 읽기만 하지 쓰기는 안한다. so. const
+//pParam: 호출자가 메모리를 동적 할당 + 값 설정까지 해서 전달
+int InsertAtHead(void* pParam,const char* (*pfParam)(void*)){ //void로 뭔가 넘어온다.
     NODE* pNewNode = (NODE*) malloc(sizeof(NODE));
-
     memset(pNewNode,0,sizeof(NODE));
 
-    strcpy(pNewNode->szData,pszData);
+    //관리 대상 자료에 관한 초기화
+    pNewNode->pData = pParam;
+    pNewNode->GetKey = pfParam; //GetKey에 함수의 주소 전달
+
+    
     //새 노드에 대한 정의
+    //연결 리스트에 관한 초기화
     pNewNode->prev = g_pHead;
     pNewNode->next = g_pHead->next;
 
@@ -76,12 +120,15 @@ int InsertAtHead(const char* pszData){ //point가 가리키는 부분을 읽기�
     return g_nSize;
 }
 
-int InsertAtTail(const char* pszData){
+int InsertAtTail(void* pParam, const char* (*pfParam)(void*)){
     NODE* pNewNode = (NODE*) malloc(sizeof(NODE));
-
     memset(pNewNode,0,sizeof(NODE));
 
-    strcpy(pNewNode->szData,pszData);
+    pNewNode->pData = pParam;
+    pNewNode->GetKey = pfParam;
+
+
+    // strcpy(pNewNode->szData,pszData);
     //새 노드에 대한 정의
     pNewNode->next = g_pTail;
     pNewNode->prev = g_pTail->prev;
@@ -93,11 +140,16 @@ int InsertAtTail(const char* pszData){
     g_nSize++;
     return g_nSize;
 }
-NODE* FindNode(const char* pszData){
+NODE* FindNode(const char* pszKey){
     NODE* pTmp = g_pHead->next; //head를 빼고 데이터 중
     //while(pTmp !=g_pTail) 도 가능하다.
     while(pTmp->next != NULL){
-        if (strcmp(pTmp->szData,pszData)==0)
+        if (strcmp(pTmp->GetKey(pTmp->pData),pszKey)==0) 
+                        //특정 자료에 의존성이 있는 어떤 자료에 직접 접근하는 것이 아니라
+                        //GetKey가 GetKeyFromUserData으로 초기화 되었다고 가정한다면 pData의 이름을 반환한다.
+                        //어떤 오브젝트에 대한 주소를 집어 넣어서 그것의 멤버 접근.
+                        //cpp의 dispointer : 객체 자신을 가리키는 포인터
+
             return pTmp;
         pTmp = pTmp->next;
 
@@ -105,15 +157,16 @@ NODE* FindNode(const char* pszData){
     return NULL;
 }
 
-int DeleteNode(const char* pszData){
+int DeleteNode(const char* pszKey){
 
-    NODE *pNode = FindNode(pszData);
+    NODE *pNode = FindNode(pszKey);
 
     pNode->prev->next = pNode->next;
     pNode->next->prev = pNode->prev;
 
     printf("DeleteNode(): %p\n",pNode);
-
+    
+    free(pNode->pData);
     free(pNode);
     g_nSize--; 
     return 0;
@@ -137,7 +190,7 @@ NODE * GetAt(int idx){
     int count =0;
     while (pTmp->next != NULL ){
         if (idx==count){
-            printf("GetAt(): %s\n",pTmp->szData);
+            // printf("GetAt(): %s\n",pTmp->pData->szName);
             return pTmp;
             }
         pTmp = pTmp->next;
@@ -146,7 +199,7 @@ NODE * GetAt(int idx){
     return NULL;
 }
 
-int InsertAt(int idx,const char* pszData){
+int InsertAt(int idx,void* pParam, const char* (*pfParam)(void*)){
     //인덱스를 줘서 거기로 집어 넣어라
     NODE* pTmp = GetAt(idx);
     // printf("%p\n",pTmp);
@@ -156,18 +209,19 @@ int InsertAt(int idx,const char* pszData){
     }else{
         NODE* pNewNode = (NODE*) malloc(sizeof(NODE));
         memset(pNewNode,0,sizeof(NODE));
-        strcpy(pNewNode->szData,pszData);
+        // strcpy(pNewNode->szData,pszData);
 
+        pNewNode->pData = pParam;
+        pNewNode->GetKey = pfParam;
         // INSERT AT TAIL과 똑같이 작동한다
         pNewNode->prev = pTmp->prev;
         pNewNode->next = pTmp;
 
         pTmp->prev->next = pNewNode;
         pTmp->prev = pNewNode;
-        printf("InsertAt(): %p %s\n",pNewNode,pNewNode->szData);
+        // printf("InsertAt(): %p %s\n",pNewNode,pNewNode->pParam);
         
         return 1;
-        
     }
     
 }
@@ -177,26 +231,10 @@ int InsertAt(int idx,const char* pszData){
 
 int main(void){
     InitList();
-    InsertAtHead("TEST01");
-    InsertAtHead("TEST02");
-    InsertAtHead("TEST03");
+    
+    CreateUserData("Ho-sung","010-1234-1234");
+    CreateUserData("Test","010-1111-1124");
 
-    InsertAt(0,"TEST AT 00");
-    PrintList();
-    InsertAt(2,"TEST AT 02");
-    PrintList();
-    InsertAt(4,"TEST AT 04");
-    PrintList();
-    InsertAt(10,"TEST AT 10");
-    PrintList();
-    NODE * pNode = GetAt(3);
-    if (pNode)
-        printf("GetAt(%d): %s\n",3,pNode->szData);
-    printf("FindNode(): [%p]\n",FindNode("TEST01"));
-
-    DeleteNode("TEST01");
-    DeleteNode("TEST02");
-    DeleteNode("TEST03");
     PrintList();
     ReleaseList();
     return 0;
