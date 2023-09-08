@@ -165,7 +165,7 @@ int main(void){
     printf("***********************\n");
     Stack stack;
     stack.top = NULL;
-    
+
     // char exp[] = "A*((B+C)/D)";
     char exp[] = "8/((3+2)-1)";
     printf("First word: %s\n",exp);
@@ -174,8 +174,6 @@ int main(void){
     char result_num = *postfix(&stack,exp) - '0';
     printf("***********************\n");
     printf("계산 결과는 : %d입니다.\n",result_num);
-
-    
     // Stackpush(&stack,"112");
     // Stackpush(&stack,"212");
     // Stackpush(&stack,"312");
@@ -186,6 +184,4 @@ int main(void){
     // Print(&stack);
     return 0;
 }
-
-
 
