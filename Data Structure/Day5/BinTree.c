@@ -54,7 +54,7 @@ int InsertNode(const char* pszData){ //point가 가리키는 부분을 읽기만
             //비교
             // 0 인경우는 생각 아직 안함.
         if(strcmp(pTmp->szData,pNewNode->szData) > 0){
-            //왼 쪽에서 오른쪽 뺴면 0보다 크면 szData가 더 작다는 얘기이다.
+            // 왼 쪽에서 오른쪽 뺴면 0보다 크면 szData가 더 작다는 얘기이다.
             //left
             if (pTmp->left == NULL){
                 pTmp->left = pNewNode;

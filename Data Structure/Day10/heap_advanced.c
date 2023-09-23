@@ -92,6 +92,7 @@ void printHeap(Heap * ph){
     }
 }
 int main(void){
+    //이 자체가 우선순위 큐이며 힙이다.
     Heap heap;
     priorityComp *pc =  DataPriorityComp;
     HeapInit(&heap,pc);
