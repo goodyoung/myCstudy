@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 int main(int argc, char *argv[]) {
     int N = atoi(argv[1]); // 명령형 인자(N) 정수형 변환
@@ -17,7 +18,7 @@ int main(int argc, char *argv[]) {
         /* parent */
         wait(&pid); // 자식 프로세스가 끝날 때 까지
         
-        int parent_result; // parent 합 계산을 담을 변수 선언
+        int parent_result=0; // parent 합 계산을 담을 변수 선언
         
         for(int i = 1 ; i < N+1 ; i++){ // 1부터 N까지 합 계산
             parent_result += i;
