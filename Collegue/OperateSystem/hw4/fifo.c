@@ -55,10 +55,10 @@ void FIFO_FrontPop(FIFO* list) {
 void FIFO_Append(FIFO* list, int data) {
     if (list->size == list->capacity) {
         // FULL 일 경우
-        // 맨 앞 제거 후 뒤에 넣기
+
         FIFO_FrontPop(list);
     }
-
+    // 맨 앞 제거 후 뒤에 넣기
     // 새로운 Node 생성
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) { printf("Memory allocation failed\n"); return; }
