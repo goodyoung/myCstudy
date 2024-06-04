@@ -90,3 +90,15 @@ int FIFO_CheckTable(FIFO* list, int pid) {
     }
     return 0; // Table에 data가 없다면
 }
+void freeFIFO(FIFO *list) {
+    // 리스트가 비어있을 경우
+    if (list == NULL) return;
+
+    // 리스트에서 노드를 하나씩 해제
+    Node *current = list->head;
+    while (current != NULL) {
+        Node *temp = current;
+        current = current->next;
+        free(temp); // 각 노드 메모리 해제
+    }
+}

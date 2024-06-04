@@ -138,8 +138,11 @@ void NRU_Append(NRU* list, int pid, char * mode) {
     newNode->data = pid;
     newNode->next = NULL;
     newNode->prev = NULL;
-    newNode->modified = 0;
     newNode->referenced = 0;
+    if (strcmp(mode,"read") == 0)
+        newNode->modified = 0;
+    else
+        newNode->modified = 1;
 
     Page* current = list->head;
 
@@ -180,5 +183,17 @@ void NRU_Append(NRU* list, int pid, char * mode) {
             list->tail = newNode;
         }
         list->size++;
+    }
+}
+
+void freeNRU(NRU *list) {
+    // 리스트가 비어있을 경우
+    if (list == NULL) return;
+    // 리스트에서 노드를 하나씩 해제
+    Page *current = list->head;
+    while (current != NULL) {
+        Page *temp = current;
+        current = current->next;
+        free(temp); // 각 노드 메모리 해제
     }
 }
