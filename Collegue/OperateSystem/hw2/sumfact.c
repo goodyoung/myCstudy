@@ -15,7 +15,7 @@ int factorial(int n){
 
 // 첫 번째 thread가 실행하는 함수
 void *thread_factorial() {
-    printf("sumfact: factorial = %d\n", factorial(N)); // 1부터 N까지 팩토리얼 계산 및 출력
+    printf("sumfact: factorial = %d\n", factorial(N)); // 1부터 N까지의 합 계산 및 출력
     return NULL; // 쓰레드가 사용하는 함수는 반환값이 필요하므로 NULL 반환
 }
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     // thread join
     for(int i =0; i<N;i++){
-        pthread_join(thread_id[i], NULL); // thread가 다 끝날 때 까지 기다리기
+        pthread_join(thread_id[i], NULL); // 각 tread가 종료될 때까지 기다림
     }
 
     return 1; // 프로그램 종료

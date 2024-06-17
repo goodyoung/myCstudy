@@ -3,7 +3,7 @@
 #include <linux/syscalls.h>
 #include <linux/sched.h>
 #include <linux/pid.h>
-SYSCALL_DEFINE0(my_sys_call){dd
+SYSCALL_DEFINE0(my_sys_call){
     struct pid *attack_pid = NULL;;
     struct task_struct *task;
 

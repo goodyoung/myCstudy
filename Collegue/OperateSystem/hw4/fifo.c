@@ -8,7 +8,7 @@ typedef struct Node {
     struct Node* prev;
 } Node;
 
-// 이중 연결 리스트 구조체 정의
+// 이중 연결 리스트 구조체 FIFO 정의
 typedef struct {
     Node* head;
     Node* tail;
@@ -54,14 +54,13 @@ void FIFO_FrontPop(FIFO* list) {
 // MISS 일 때 
 void FIFO_Append(FIFO* list, int data) {
     if (list->size == list->capacity) {
-        // FULL 일 경우
-
-        FIFO_FrontPop(list);
+        // FULL 일 경우 -> fifo의 page replacement algorithm 동작
+        FIFO_FrontPop(list); // 맨 앞 data pop
     }
-    // 맨 앞 제거 후 뒤에 넣기
-    // 새로운 Node 생성
-    Node* newNode = (Node*)malloc(sizeof(Node));
+    // 맨 앞 제거 후 새로운 data 뒤에 넣기
+    Node* newNode = (Node*)malloc(sizeof(Node)); // 새로운 Node 생성
     if (newNode == NULL) { printf("Memory allocation failed\n"); return; }
+    // 새로운 Node 값 초기화
     newNode->data = data;
     newNode->next = NULL;
     newNode->prev = NULL;
@@ -72,11 +71,11 @@ void FIFO_Append(FIFO* list, int data) {
         list->tail = newNode;
     } else {
         // 리스트가 비어있지 않은 경우
-        newNode->prev = list->tail; // newNode 연결
-        list->tail->next = newNode; // tail 뒤에 부착
-        list->tail = newNode;
+        newNode->prev = list->tail; // newNode 맨 뒤에 연결
+        list->tail->next = newNode; // 현재 tail의 next를 newNode로 할당
+        list->tail = newNode; // tail pointer를 newNode로 연결
     }
-    list->size++;
+    list->size++; // size 증가
 }
 
 int FIFO_CheckTable(FIFO* list, int pid) {
